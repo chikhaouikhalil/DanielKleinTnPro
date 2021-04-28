@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import DrawerContent from '../components/DrawerContent';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -13,7 +14,10 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = () => {
   return (
-    <Drawer.Navigator drawerType="slide">
+    <Drawer.Navigator
+      drawerType="slide"
+      screenOptions={{swipeEnabled: false}}
+      drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="HomeScreen" component={HomeScreen} />
       <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
     </Drawer.Navigator>

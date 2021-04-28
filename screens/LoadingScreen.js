@@ -1,42 +1,31 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {colors, Gs} from '../utils/Styles';
 import {width} from '../utils/Dim';
+import * as Animatable from 'react-native-animatable';
 
 const LoadingScreen = ({navigation}) => {
   React.useEffect(() => {
     setTimeout(() => {
       navigation.replace('DrawerNavigation');
-    }, 2500);
+    }, 3000);
   }, []);
   return (
     <View
-      style={[Gs.container, {justifyContent: 'center', alignItems: 'center'}]}>
-      <Image source={require('../assets/logowhite.png')} style={styles.image} />
-      <Text
-        style={{
-          color: colors.white,
-          fontFamily: 'Ubuntu-Bold',
-          textAlign: 'center',
-          fontSize: 30,
-          marginTop: 30,
-        }}>
-        Daniel Klein
-      </Text>
-      <Text
-        style={{
-          color: colors.white,
-          fontFamily: 'Ubuntu-Medium',
-          fontSize: 22,
-          textAlign: 'center',
-        }}>
-        Tunisie
-      </Text>
-      <ActivityIndicator
-        size={60}
-        color={colors.white}
-        style={{marginTop: 50}}
+      style={[
+        Gs.darkContainer,
+        {justifyContent: 'center', alignItems: 'center'},
+      ]}>
+      <Animatable.Image
+        duration={1000}
+        animation="pulse"
+        useNativeDriver
+        iterationCount="infinite"
+        source={require('../assets/logowhite.png')}
+        style={styles.image}
       />
+      <Text style={styles.name}>Daniel Klein</Text>
+      <Text style={styles.text}>fashion for everyone</Text>
     </View>
   );
 };
@@ -45,9 +34,21 @@ export default LoadingScreen;
 
 const styles = StyleSheet.create({
   image: {
-    width: width * 0.4,
-    height: width * 0.4,
-
+    width: width * 0.5,
+    height: width * 0.5,
     alignSelf: 'center',
+  },
+  name: {
+    color: colors.white,
+    fontFamily: 'Ubuntu-Bold',
+    textAlign: 'center',
+    fontSize: width / 10,
+    marginTop: 30,
+  },
+  text: {
+    color: colors.white,
+    fontFamily: 'Ubuntu-BoldItalic',
+    fontSize: width / 20,
+    textAlign: 'center',
   },
 });

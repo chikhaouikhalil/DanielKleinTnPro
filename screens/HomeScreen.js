@@ -1,20 +1,30 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {width} from '../utils/Dim';
+import Header from '../components/Header';
+import {colors} from '../utils/Styles';
 const HomeScreen = ({navigation}) => {
-  const openDrawer = () => navigation.openDrawer();
-  React.useEffect(() => {
-    setTimeout(() => {
-      openDrawer();
-    }, 2500);
-  }, []);
   return (
-    <View>
-      <Text>HomeScreen</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <StatusBar backgroundColor={colors.darkBrown} />
+      <Header navigation={navigation} />
+    </ScrollView>
   );
 };
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.brown,
+    flex: 1,
+  },
+});

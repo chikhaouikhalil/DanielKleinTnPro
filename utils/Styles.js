@@ -4,12 +4,17 @@ export const colors = {
   gray: '#666',
   grayDark: '#4c4d4e',
   brown: '#1b1918',
+  darkBrown: '#080707',
 };
 
 export const Gs = {
-  container: {
+  darkContainer: {
     flex: 1,
     backgroundColor: colors.brown,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
 };
 
