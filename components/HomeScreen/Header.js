@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, Image, View} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {colors} from '../utils/Styles';
+import {colors} from '../../utils/Styles';
 const Header = ({navigation}) => {
   return (
     <View style={styles.container}>
@@ -10,7 +10,7 @@ const Header = ({navigation}) => {
       </Pressable>
       <View style={styles.row}>
         <Image
-          source={require('../assets/logowhite.png')}
+          source={require('../../assets/logowhite.png')}
           style={styles.logo}
         />
         <View>
@@ -27,12 +27,12 @@ export default Header;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.darkBrown,
-    paddingVertical: 10,
-    borderBottomLeftRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 5,
+
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: 8,
   },
   button: {
     marginTop: 10,
@@ -43,11 +43,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Ubuntu-Bold',
     fontSize: 17,
     color: colors.white,
+    marginRight: 10,
   },
   subTitle: {
     fontFamily: 'Ubuntu-Light',
     fontSize: 15,
     color: colors.white,
+    marginRight: 10,
   },
   row: {
     flexDirection: 'row',

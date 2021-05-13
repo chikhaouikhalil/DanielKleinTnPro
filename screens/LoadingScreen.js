@@ -14,7 +14,11 @@ const LoadingScreen = ({navigation}) => {
     <View
       style={[
         Gs.darkContainer,
-        {justifyContent: 'center', alignItems: 'center'},
+        {
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.brown,
+        },
       ]}>
       <Animatable.Image
         duration={1000}
