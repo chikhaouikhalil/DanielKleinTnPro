@@ -1,7 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  FlatList,
-  Image,
   Pressable,
   StyleSheet,
   Text,
@@ -10,33 +8,81 @@ import {
 } from 'react-native';
 import {colors} from '../../utils/Styles';
 import {width} from '../../utils/Dim';
+import axios from 'axios';
+import {Image} from 'react-native-elements';
+import {Surface} from 'react-native-paper';
+import * as Animatable from 'react-native-animatable';
 
-const SampleBracelet = ({text, items, navigation}) => {
+const SampleBracelet = ({text, gender, navigation}) => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://chikhaouikhl.alwaysdata.net/api/products/sample/bracelets/${gender}`,
+      )
+      .then(res => setProducts(res.data))
+      .catch(e => console.log(e));
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.title}>{text}</Text>
-        <Pressable style={styles.seeButton}>
+        <Pressable
+          style={styles.seeButton}
+          onPress={() =>
+            navigation.navigate('ProductsScreen', {
+              gender,
+              category: 'bracelets',
+              text,
+            })
+          }>
           <Text style={styles.see}>Voir plus</Text>
         </Pressable>
       </View>
       <View style={styles.productsContainer}>
-        {items.map(item => {
-          return (
-            <TouchableOpacity
-              key={item.title}
-              style={styles.productContainer}
-              onPress={() => navigation.navigate('BraceletScreen', item)}>
-              <Image source={{uri: item.image}} style={styles.image} />
-              <Text style={styles.name}>{item.title}</Text>
-              <View style={styles.infoContainer}>
-                <Text style={styles.price}>{`${item.price} DT`}</Text>
-                <Text style={styles.realPrice}>{`${item.realPrice} DT`}</Text>
-                <Text style={styles.discount}>{`-${item.discount}%`}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+        {products.length === 0
+          ? Array.from(Array(6).keys()).map(k => {
+              return (
+                <Surface
+                  style={[styles.productContainer, {justifyContent: 'center'}]}
+                  key={k}>
+                  <Animatable.Image
+                    animation="zoomIn"
+                    useNativeDriver
+                    iterationCount="infinite"
+                    duration={300 * k}
+                    easing="linear"
+                    direction="alternate-reverse"
+                    source={require('../../assets/logoloading.png')}
+                    style={{width: width * 0.15, height: width * 0.15}}
+                  />
+                </Surface>
+              );
+            })
+          : products.map(item => {
+              return (
+                <TouchableOpacity
+                  key={item._id}
+                  style={styles.productContainer}
+                  onPress={() => navigation.navigate('BraceletScreen', item)}>
+                  <Image
+                    containerStyle={{
+                      backgroundColor: colors.lightGray,
+                      borderRadius: 20,
+                    }}
+                    source={{uri: item.images[0]}}
+                    style={styles.image}
+                  />
+                  <Text style={styles.name}>{item.name}</Text>
+                  <View style={styles.infoContainer}>
+                    <Text style={styles.price}>{`${item.price} DT`}</Text>
+                    <Text
+                      style={styles.realPrice}>{`${item.realPrice} DT`}</Text>
+                    <Text style={styles.discount}>{`-${item.discount}%`}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
       </View>
     </View>
   );
@@ -62,7 +108,10 @@ const styles = StyleSheet.create({
     width: width * 0.5 - 20,
     height: (width * 0.5 - 20) * 1.25,
     marginHorizontal: 5,
+    borderRadius: 20,
     marginTop: 10,
+    backgroundColor: colors.lightGray,
+    alignItems: 'center',
   },
   image: {
     width: width * 0.5 - 20,
@@ -129,6 +178,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 5,
     borderRadius: 10,
+    marginRight: 8,
   },
   see: {
     color: colors.grayDark,

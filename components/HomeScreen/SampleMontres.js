@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
-  Image,
   Pressable,
   StyleSheet,
   Text,
@@ -10,37 +9,97 @@ import {
 } from 'react-native';
 import {colors} from '../../utils/Styles';
 import {width} from '../../utils/Dim';
+import axios from 'axios';
+import {Image} from 'react-native-elements';
+import {ScrollView} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
-const SampleMontres = ({text, items, navigation}) => {
+const SampleMontres = ({text, gender, navigation}) => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://chikhaouikhl.alwaysdata.net/api/products/sample/montres/${gender}`,
+      )
+      .then(res => setProducts(res.data))
+      .catch(e => console.log(e));
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.title}>{text}</Text>
-        <Pressable style={styles.seeButton}>
+        <Pressable
+          style={styles.seeButton}
+          onPress={() =>
+            navigation.navigate('ProductsScreen', {
+              gender,
+              category: 'montres',
+              text,
+            })
+          }>
           <Text style={styles.see}>Voir plus</Text>
         </Pressable>
       </View>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={items}
-        keyExtractor={item => Math.random().toString()}
-        renderItem={({item, index}) => {
-          return (
-            <TouchableOpacity
-              style={styles.productContainer}
-              onPress={() => navigation.navigate('MontreScreen', item)}>
-              <Image source={{uri: item.image}} style={styles.image} />
-              <Text style={styles.name}>{item.title}</Text>
-              <View style={styles.infoContainer}>
-                <Text style={styles.price}>{`${item.price} DT`}</Text>
-                <Text style={styles.realPrice}>{`${item.realPrice} DT`}</Text>
-                <Text style={styles.discount}>{`-${item.discount}%`}</Text>
+      {products.length === 0 ? (
+        <ScrollView horizontal>
+          {[1, 2, 3, 4, 5].map(e => {
+            return (
+              <View
+                key={e}
+                style={[
+                  styles.productContainer,
+                  {
+                    backgroundColor: colors.lightGray,
+                    borderRadius: 20,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  },
+                ]}>
+                <Animatable.Image
+                  animation="zoomIn"
+                  useNativeDriver
+                  iterationCount="infinite"
+                  duration={300 * e}
+                  easing="linear"
+                  direction="alternate-reverse"
+                  source={require('../../assets/logoloading.png')}
+                  style={{width: width * 0.2, height: width * 0.2}}
+                />
               </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
+            );
+          })}
+        </ScrollView>
+      ) : (
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={products}
+          keyExtractor={product => product._id}
+          renderItem={({item, index}) => {
+            return (
+              <TouchableOpacity
+                style={styles.productContainer}
+                onPress={() => navigation.navigate('MontreScreen', item)}>
+                <Image
+                  source={{uri: item.images[0]}}
+                  style={styles.image}
+                  containerStyle={{
+                    backgroundColor: colors.lightGray,
+                    borderRadius: 20,
+                  }}
+                />
+                <Text style={styles.name}>{item.name}</Text>
+                <View style={styles.infoContainer}>
+                  <Text style={styles.price}>{`${item.price} DT`}</Text>
+                  <Text style={styles.realPrice}>{`${item.realPrice} DT`}</Text>
+                  <Text style={styles.discount}>{`-${item.discount}%`}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      )}
     </View>
   );
 };
@@ -131,6 +190,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 5,
     borderRadius: 10,
+    marginRight: 8,
   },
   see: {
     color: colors.grayDark,

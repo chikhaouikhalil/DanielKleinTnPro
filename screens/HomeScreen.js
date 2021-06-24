@@ -1,20 +1,11 @@
 import * as React from 'react';
 import {FAB, Portal, Provider} from 'react-native-paper';
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, View, Linking} from 'react-native';
 import Header from '../components/HomeScreen/Header';
 import SampleMontres from '../components/HomeScreen/SampleMontres';
 import SampleBracelet from '../components/HomeScreen/SampleBracelet';
 import {colors} from '../utils/Styles';
-import {montresHommes, montresFemmes, bracelets} from '../utils/data';
 import {width} from '../utils/Dim';
-import LinearGradient from 'react-native-linear-gradient';
 
 const HomeScreen = ({navigation}) => {
   const [state, setState] = React.useState({open: false});
@@ -23,31 +14,55 @@ const HomeScreen = ({navigation}) => {
 
   const {open} = state;
 
+  const facebook = () => {
+    Linking.openURL('fb://page/285253948509309');
+  };
+  const instagram = () => {
+    Linking.openURL('http://instagram.com/_u/danielkleingrouptunisie');
+  };
+
+  const messenger = () => {
+    Linking.canOpenURL('fb-messenger://')
+      .then(supported => {
+        if (!supported) {
+          return;
+        } else {
+          Linking.openURL('fb-messenger://user-thread/' + '285253948509309');
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  const whatsapp = () => {
+    Linking.openURL('whatsapp://send?phone=+216 29 230 850');
+  };
+
   return (
     <Provider>
       <ScrollView style={styles.container}>
         <StatusBar backgroundColor={colors.darkBrown} />
         <Header navigation={navigation} />
+
         <SampleMontres
           navigation={navigation}
           text={`Montres Hommes Dk`}
-          items={montresHommes}
+          gender={'hommes'}
         />
         <SampleMontres
           navigation={navigation}
           text={`Montres Femmes Dk`}
-          items={montresFemmes}
+          gender={'femmes'}
         />
         <SampleBracelet
           navigation={navigation}
-          text={`Bracelets`}
-          items={bracelets}
+          text={`Bracelets Hommes`}
+          gender={'hommes'}
         />
 
         <View style={{height: 100}}></View>
         <Portal>
           <FAB.Group
-            fabStyle={{...styles.logo, backgroundColor: '#3d664f'}}
+            fabStyle={{...styles.logo, backgroundColor: colors.lightBrown}}
             open={open}
             icon={'face-agent'}
             actions={[
@@ -55,25 +70,33 @@ const HomeScreen = ({navigation}) => {
                 icon: 'facebook',
                 color: '#fff',
                 label: 'Facebook',
-                onPress: () => console.log('Pressed star'),
+                onPress: () => facebook(),
                 small: false,
-                style: {...styles.logo, backgroundColor: '#4267B2'},
+                style: {...styles.logo1, backgroundColor: '#4267B2'},
               },
               {
                 icon: 'facebook-messenger',
                 color: '#fff',
                 label: 'Messenger',
-                onPress: () => console.log('Pressed email'),
+                onPress: () => messenger(),
                 small: false,
-                style: {...styles.logo, backgroundColor: '#006AFF'},
+                style: {...styles.logo1, backgroundColor: '#006AFF'},
               },
               {
                 icon: 'whatsapp',
                 color: '#fff',
                 label: "What's App",
-                onPress: () => console.log('Pressed notifications'),
+                onPress: () => whatsapp(),
                 small: false,
-                style: styles.logo,
+                style: {...styles.logo1, backgroundColor: '#219e49'},
+              },
+              {
+                icon: 'instagram',
+                color: '#fff',
+                label: 'Instagram',
+                onPress: () => instagram(),
+                small: false,
+                style: {...styles.logo1, backgroundColor: '#c13584'},
               },
             ]}
             onStateChange={onStateChange}
@@ -97,12 +120,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    backgroundColor: '#25D366',
-    width: 60,
-    height: 60,
+    width: 70,
+    elevation: 10,
+    height: 70,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
+    borderRadius: 35,
+  },
+  logo1: {
+    width: 50,
+    elevation: 10,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 35,
   },
   textContainer: {
     width: width - 30,

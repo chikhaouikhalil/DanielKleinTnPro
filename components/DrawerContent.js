@@ -33,7 +33,13 @@ const DrawerContent = ({navigation}) => {
         </TouchableOpacity>
         <Text style={styles.label}>Nos articles</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ProfileScreen')}
+          onPress={() =>
+            navigation.navigate('ProductsScreen', {
+              gender: 'hommes',
+              category: 'montres',
+              text: 'Montres',
+            })
+          }
           style={styles.LinkContainer}>
           <FontAwesome5
             name="clock"

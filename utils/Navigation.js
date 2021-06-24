@@ -9,6 +9,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import DrawerContent from '../components/DrawerContent';
 import MontreScreen from '../screens/MontreScreen';
 import BraceletScreen from '../screens/BraceletScreen';
+import ProductsScreen from '../screens/ProductsScreen';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -32,8 +33,9 @@ const Navigation = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="LoadingScreen" component={LoadingScreen} />
         <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} />
-        <Drawer.Screen name="MontreScreen" component={MontreScreen} />
-        <Drawer.Screen name="BraceletScreen" component={BraceletScreen} />
+        <Stack.Screen name="MontreScreen" component={MontreScreen} />
+        <Stack.Screen name="BraceletScreen" component={BraceletScreen} />
+        <Stack.Screen name="ProductsScreen" component={ProductsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
