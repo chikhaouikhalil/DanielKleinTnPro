@@ -8,7 +8,7 @@ export const colors = {
   darkBrown: '#080707',
   loadingBrown: '#a8a29d',
   lightBrown: '#827b75',
-  yellow: '#a8a163',
+  yellow: '#e3c932',
   darkYellow: '#d5a65b',
   blue: '#324566',
 };

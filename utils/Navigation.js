@@ -10,6 +10,8 @@ import DrawerContent from '../components/DrawerContent';
 import MontreScreen from '../screens/MontreScreen';
 import BraceletScreen from '../screens/BraceletScreen';
 import ProductsScreen from '../screens/ProductsScreen';
+import LoginScreen from '../screens/LoginScreen';
+import ContactScreen from '../screens/ContactScreen';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -22,7 +24,9 @@ const DrawerNavigation = () => {
       screenOptions={{swipeEnabled: false}}
       drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="HomeScreen" component={HomeScreen} />
+      <Drawer.Screen name="LoginScreen" component={LoginScreen} />
       <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Drawer.Screen name="ContactScreen" component={ContactScreen} />
     </Drawer.Navigator>
   );
 };

@@ -20,13 +20,13 @@ const DrawerContent = ({navigation}) => {
           <Text style={styles.linktext}>Acceuil</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ProfileScreen')}
+          onPress={() => navigation.navigate('LoginScreen')}
           style={styles.LinkContainer}>
           <FontAwesome5 name="users" size={20} color={colors.white} />
           <Text style={styles.linktext}>Mon compte</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('HomeScreen')}
+          onPress={() => navigation.navigate('ContactScreen')}
           style={styles.LinkContainer}>
           <FontAwesome5 name="info-circle" size={20} color={colors.white} />
           <Text style={styles.linktext}>Contact</Text>
